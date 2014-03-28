@@ -48,9 +48,10 @@ void loop() {
         codeString.trim();              // trims the code to one line (for some reason it was longer)
         
         swipe(codeString);
-        //Serial.print("Swiping TAG code: ");   // possibly a good TAG 
-        //Serial.println(codeString);            // print the TAG code 
-        Serial.flush();                  // Flush the serial buffer before trying to read a new code
+        delay(5000);
+        
+        digitalWrite(ENABLE, LOW);
+        Serial.begin(2400);
       } 
       bytesread = 0; 
     }
@@ -59,9 +60,8 @@ void loop() {
 
 void swipe(String swipeCode) {
     Serial.println(swipeCode);
+    //Serial.print("TAG code is: " + codeString);   // possibly a good TAG 
+    Serial.flush();
     Serial.end();
-    digitalWrite(ENABLE, HIGH);    
-    delay(5000);
-    digitalWrite(ENABLE, LOW);
-    Serial.begin(2400);
+    digitalWrite(ENABLE, HIGH);
 }
