@@ -1,7 +1,7 @@
 Skulving
 ========
 
-Memory lab ingress gateway.
+Skeletal unified laboratory virtual ingress notification gateway.
 
 Skulving is a prototype currently residing in the Memory Lab in the Washington University Department of Psychology. Construct his mechanical parts following the Charlie's Bear instructions from Make Magazine: http://makezine.com/projects/charlies-rfid-teddy-bear/
 
