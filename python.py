@@ -1,31 +1,17 @@
 import serial
 import smtplib
-import subprocess
 import threading
-import feedparser
-import twitter
 import time
 from datetime import datetime
 from apscheduler.scheduler import Scheduler
 from email.mime.text import MIMEText
 
-api = twitter.Api(consumer_key = 'KasilRhNytb35xkvfGVXA',
-                  consumer_secret = 'awSSiae2OlqbS4CiQeRR0miQN8uX7tyYtADk2j8YWs',
-                  access_token_key = '1488901980-CIq2n6t1acDarp1GZZsaFIhUDFT3RhivpGnVD2I',
-                  access_token_secret= '4W9MUP3v2e721Wmy2CzNox2zBq5h9GN69KJsup4gV3InY')
-
 USERNAME = "skulving@technimentis.com"
 PASSWORD = "tulvingtulving"
 
-#NEWMAIL_OFFSET = 1
-#MAIL_CHECK_FREQ = 60
-#TWEET_CHECK_FREQ = 60
-
-#lastTweet = ""
-
 ser = serial.Serial('/dev/ttyACM0', 2400)
 
-andyCode = "5X"
+andyCode = "5X" # changed in order to test the water functionality
 adamCode = "D8"
 jasonCode = "5C"
 johnCode = "E7"
@@ -49,87 +35,26 @@ allisonPresent = False
 
 andyWater = 0;
 
-#mailTimer = ""
-#tweetTimer = ""
-
-#mailTimer = threading.Timer(MAIL_CHECK_FREQ, checkMail)
-#tweetTimer = threading.Timer(TWEET_CHECK_FREQ, checkTweets)
-
-def main():
-    #global mailTimer 
-    #global tweetTimer
-
-    #mailTimer = threading.Timer(MAIL_CHECK_FREQ, checkMail)
-    #tweetTimer = threading.Timer(TWEET_CHECK_FREQ, checkTweets)
-
-    #checkMail()
-    #checkTweets()
-    
-    #mailTimer.start()
-    #tweetTimer.start()
-    
+def main():    
     sched = Scheduler()
     sched.start()
     
-    sched.add_cron_job(BBCAlert, day_of_week='fri', hour = '17', minute = '03')
-    sched.add_cron_job(labMeetingAlert, day_of_week='mon', hour = '10', minute = '25')
-    sched.add_cron_job(checkoutEveryone, hour = '23', minute = '55')
+    sched.add_cron_job(BBCAlert, day_of_week='wed', hour = '15', minute = '55') # BBC Alert should go off at 3:55 PM Wednesdays
+    sched.add_cron_job(labMeetingAlert, day_of_week='mon', hour = '10', minute = '25') # lab meeting alert should go off at 10:25 AM Mondays
+    sched.add_cron_job(checkoutEveryone, hour = '23', minute = '55') # reset daily variables at 11:55 PM every day
     
     while 1 :
-        print("Listening for serial input...")
+        #print("Listening for serial input...") # for debug
         serialInput = ser.readline()
         serialInput = serialInput.strip()
-        #print("Serial input is: " + serialInput)
         if len(serialInput) == 10:
-            print ("Found serial input! Trimming it...")
-            swipe(serialInput[-2:])
-                                        
-#def checkMail():
-#    global mailTimer
-#
-#    mailTimer = threading.Timer(MAIL_CHECK_FREQ, checkMail)
-#
-#    #mailTimer.shutdown = True
-#    #mailTimer.join()
-#    
-#    newmails = int(feedparser.parse("https://" + USERNAME + ":" + PASSWORD +"@mail.google.com/gmail/feed/atom")["feed"]["fullcount"])
-#
-#    print("Attempting to check mail.")
-#    print("You have", newmails, "new emails!")
-#    #if newmails > NEWMAIL_OFFSET:
-#         #speak("You have a new email.")
-#    mailTimer.start() 
-
-#def checkTweets():
-#    global api
-#    global tweetTimer
-#    global lastTweet
-#
-#    tweetTimer = threading.Timer(TWEET_CHECK_FREQ, checkTweets)
-#
-#    #tweetTimer.shutdown = True
-#    #tweetTimer.join()
-#
-#    status = api.GetDirectMessages()
-#    print [s.text for s in status]
-#    checkIt = [s.text for s in status]
-#
-#    drip = checkIt[0].split()
-#
-#    if lastTweet != drip[0]:
-#        if drip[0] == '#hi':
-#            speak("Someone sent me a direct message on Twitter.")
-#        if drip[0] == '#test':
-#            speak("Someone is testing my Twitter functionality.")
-#        else:
-#            print 'Awaiting Tweet.'
-#    lastTweet = drip[0]    
-#
-#    tweetTimer.start()   
+            #print ("Found serial input! Trimming it...") # for debug
+            swipe(serialInput[-2:]) # get the last 2 characters of the serial input (i.e., RFID tag)
+                                         
 
 def swipe(swipeCode):
     print("Swiping... " + swipeCode)
-    global andyPresent
+    global andyPresent # apparently doing this is awful practice, but we'll do it anyway
     global adamPresent
     global jasonPresent
     global johnPresent
@@ -140,6 +65,8 @@ def swipe(swipeCode):
     global allisonPresent
     
     global andyWater
+    
+    andywater = 0
 
     if (swipeCode == andyCode) and (andyPresent == False):
         sendIFTTTEmail("Andy (@kadesoto) has checked in to the Memory Lab.")
@@ -234,6 +161,8 @@ def checkoutEveryone():
     global poojaPresent
     global meghanPresent
     global allisonPresent
+    
+    global andyWater
     
     andyPresent = False
     adamPresent = False
