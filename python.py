@@ -22,6 +22,7 @@ meghanCode = "08"
 allisonCode = "B8"
 
 andyWaterCode = "5A"
+adamWaterCode = "XX"
 
 andyPresent = False
 adamPresent = False
@@ -34,6 +35,7 @@ meghanPresent = False
 allisonPresent = False
 
 andyWater = 0;
+adamWater = 0;
 
 def main():    
     sched = Scheduler()
@@ -65,8 +67,7 @@ def swipe(swipeCode):
     global allisonPresent
     
     global andyWater
-    
-    andywater = 0
+    global adamWater
 
     if (swipeCode == andyCode) and (andyPresent == False):
         sendIFTTTEmail("Andy (@kadesoto) has checked in to the Memory Lab.")
@@ -149,6 +150,14 @@ def swipe(swipeCode):
             speak("Andy, you have had " + str(andyWater) + " bottles of water today.")
             sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (" + str(andyWater) + " times today).")
         andyWater = andyWater + 1
+    elif (swipeCode == adamWaterCode):
+        if (adamWater == 1):
+            speak("Adam, you have had 1 bottle of water today.")
+            sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (1 time today).")
+        else:
+            speak("Adam, you have had " + str(adamWater) + " bottles of water today.")
+            sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (" + str(adamWater) + " times today).")
+        adamWater = adamWater + 1
            
 
 def checkoutEveryone():
@@ -163,6 +172,7 @@ def checkoutEveryone():
     global allisonPresent
     
     global andyWater
+    global adamWater
     
     andyPresent = False
     adamPresent = False
@@ -173,6 +183,9 @@ def checkoutEveryone():
     poojaPresent = False
     meghanPresent = False
     allisonPresent = False
+    
+    andyWater = 0
+    adamWater = 0
 
 def sendIFTTTEmail(subject):
     msg = MIMEText("")
