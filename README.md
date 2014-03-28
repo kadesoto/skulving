@@ -7,4 +7,4 @@ Skulving is a prototype currently residing in the Memory Lab in the Washington U
 
 Attach the Arduino running the .ino file to a Raspberry Pi running the attached Python script.
 
-Let me know if you have questions or concerns. This is obviously an alpha project.
+Let me know if you have questions or concerns. This is obviously an alpha project. You can also visit Skulving on the web at http://technimentis.com/skulving/.
