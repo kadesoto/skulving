@@ -2,6 +2,7 @@ import serial
 import smtplib
 import threading
 import time
+import subprocess
 from datetime import datetime
 from apscheduler.scheduler import Scheduler
 from email.mime.text import MIMEText
@@ -222,7 +223,7 @@ def reportIP():
     s.close()
 
 def speak(speechString):
-    subprocess.call(["./Speech.sh", speechString])
+    subprocess.call(["./speech.sh", speechString])
     
 def BBCAlert():
     speak("The BBC colloquium is about to start.")
