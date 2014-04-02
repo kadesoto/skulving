@@ -7,36 +7,45 @@ from datetime import datetime
 from apscheduler.scheduler import Scheduler
 from email.mime.text import MIMEText
 
+class LabMember:
+    #firstName = ""
+    #firstNamePhonetic = ""
+    #lastName = ""
+    #lastNamePhonetic = ""
+    #title = ""
+    #RFIDCode = ""
+    #timeIn = ""
+    #timeOut = ""
+    #twitterHandle = ""
+    present = False
+    water = 0
+    
+    def __init__(self, firstName, firstNamePhonetic, lastName, lastNamePhonetic, title, RFIDCode, twitterHandle):
+        self.firstName = firstName
+        self.firstNamePhonetic = firstNamePhonetic
+        self.lastName = lastName
+        self.lastNamePhonetic = lastNamePhonetic
+        self.title = title
+        self.RFIDCode = RFIDCode
+        self.twitterHandle = twitterHandle
+    
 USERNAME = "skulving@technimentis.com"
 PASSWORD = "tulvingtulving"
 
 ser = serial.Serial('/dev/ttyACM0', 2400)
 
-andyCode = "5X" # changed in order to test the water functionality
-adamCode = "D8"
-jasonCode = "5C"
-johnCode = "E7"
-victorCode = "85"
-julieCode = "CE"
-poojaCode = "27"
-meghanCode = "08"
-allisonCode = "B8"
+andy = LabMember("Andy", "Andy", "DeSoto", "DeSoto", "Mister", "5A", "@kadesoto")
+adam = LabMember("Adam", "Adam", "Putnam", "Putnam", "Mister", "D8", "@adamlputnam")
+jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonrfinley")
+john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
+victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sunkasetty", "Mister", "85", "")
+julie = LabMember("Julie", "Julie", "Gray", "Gray", "Miss", "CE", "@joule")
+pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "27" , "@poojaagarwal")
+meghan = LabMember("Meghan", "Megan", "McDoniel", "McDoniel", "Miss", "08", "")
+allison = LabMember("Allison", "Allison", "Obenhaus", "Obenhaus", "Miss", "B8", "@allisonobenhaus")
+roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "XX", "")
 
-andyWaterCode = "5A"
-adamWaterCode = "XX"
-
-andyPresent = False
-adamPresent = False
-jasonPresent = False
-johnPresent = False
-victorPresent = False
-juliePresent = False
-poojaPresent = False
-meghanPresent = False
-allisonPresent = False
-
-andyWater = 0;
-adamWater = 0;
+lab = [andy, adam, jason, john, victor, julie, pooja, meghan, allison, roddy]
 
 def main():    
     sched = Scheduler()
@@ -57,136 +66,43 @@ def main():
 
 def swipe(swipeCode):
     print("Swiping... " + swipeCode)
-    global andyPresent # apparently doing this is awful practice, but we'll do it anyway
-    global adamPresent
-    global jasonPresent
-    global johnPresent
-    global victorPresent
-    global juliePresent
-    global poojaPresent
-    global meghanPresent
-    global allisonPresent
     
-    global andyWater
-    global adamWater
+    for x in lab:
+      if x.RFIDCode == swipeCode and x.present == False:
+         temporaryTwitterHandle = " (" + x.twitterHandle + ") "
+         sendIFTTTEmail(x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
+         speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
+         x.timeIn = time.strftime("%c")
+         x.present = True
+         
+      elif x.RFIDCode == swipeCode and x.present == True:
+         temporaryTwitterHandle = " (" + x.twitterHandle + ") "
+         sendIFTTTEmail(x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
+         speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
+         x.timeOut = time.strftime("%c")
+         x.present = False
 
-    if (swipeCode == andyCode) and (andyPresent == False):
-        sendIFTTTEmail("Andy (@kadesoto) has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Mister Andy DeSoto.")
-        andyPresent = True
-    elif (swipeCode == adamCode) and (adamPresent == False):
-        sendIFTTTEmail("Adam (@adamlputnam) has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Mister Adam Putnam.")
-        adamPresent = True
-    elif (swipeCode == jasonCode) and (jasonPresent == False):
-        sendIFTTTEmail("Jason has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Doctor Jason Finley.")
-        jasonPresent = True
-    elif (swipeCode == johnCode) and (johnPresent == False):
-        sendIFTTTEmail("John has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Doctor John Nestoyko.")
-        johnPresent = True
-    elif (swipeCode == victorCode) and (victorPresent == False):
-        sendIFTTTEmail("Victor has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Mister Victor Sunkasetty.")
-        victorPresent = True
-    elif (swipeCode == julieCode) and (juliePresent == False):
-        sendIFTTTEmail("Julie has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Miss Julie Gray.")
-        juliePresent = True
-    elif (swipeCode == poojaCode) and (poojaPresent == False):
-        sendIFTTTEmail("Pooja (@poojaagarwal) has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Doctor Pooja Agarwal.")
-        poojaPresent = True
-    elif (swipeCode == meghanCode) and (meghanPresent == False):
-        sendIFTTTEmail("Meghan has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Miss Megan McDonyel.")
-        meghanPresent = True
-    elif (swipeCode == allisonCode) and (allisonPresent == False):
-        sendIFTTTEmail("Allison (@allisonobenhaus) has checked in to the Memory Lab.")
-        speak("Identity authorized. Welcome to the Memory Lab, Miss Allison Obenhaus.")
-        allisonPresent = True
-    elif (swipeCode == andyCode) and (andyPresent == True):
-        sendIFTTTEmail("Andy (@kadesoto) has checked out of the Memory Lab.")
-        speak("Goodbye, Mister DeSoto. You have checked out.")
-        andyPresent = False
-    elif (swipeCode == adamCode) and (adamPresent == True):
-        sendIFTTTEmail("Adam (@adamlputnam) has checked out of the Memory Lab.")
-        speak("Goodbye, Mister Putnam. You have checked out.")
-        adamPresent = False
-    elif (swipeCode == jasonCode) and (jasonPresent == True):
-        sendIFTTTEmail("Jason has checked out of the Memory Lab.")
-        speak("Goodbye, Doctor Finley. You have checked out.")
-        jasonPresent = False
-    elif (swipeCode == johnCode) and (johnPresent == True):
-        sendIFTTTEmail("John has checked out of the Memory Lab.")
-        speak("Goodbye, Doctor Nestoyko. You have checked out.")
-        johnPresent = False
-    elif (swipeCode == victorCode) and (victorPresent == True):
-        sendIFTTTEmail("Victor has checked out of the Memory Lab.")
-        speak("Goodbye, Mister Sunkasetty. You have checked out.")
-        victorPresent = False
-    elif (swipeCode == julieCode) and (juliePresent == True):
-        sendIFTTTEmail("Julie has checked out of the Memory Lab.")
-        speak("Goodbye, Miss Gray. You have checked out.")
-        juliePresent = False
-    elif (swipeCode == poojaCode) and (poojaPresent == True):
-        sendIFTTTEmail("Pooja (@poojaagarwal) has checked out of the Memory Lab.")
-        speak("Goodbye, Doctor Agarwal. You have checked out.")
-        poojaPresent = False
-    elif (swipeCode == meghanCode) and (meghanPresent == True):
-        sendIFTTTEmail("Meghan has checked out of the Memory Lab.")
-        speak("Goodbye, Miss McDonyel. You have checked out.")
-        meghanPresent = False
-    elif (swipeCode == allisonCode) and (allisonPresent == True):
-        sendIFTTTEmail("Allison (@allisonobenhaus) has checked out of the Memory Lab.")
-        speak("Goodbye, Miss Obenhaus. You have checked out.")
-        allisonPresent = False
-        
-    elif (swipeCode == andyWaterCode):
-        if (andyWater == 1):
-            speak("Andy, you have had 1 bottle of water today.")
-            sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (1 time today).")
-        else:
-            speak("Andy, you have had " + str(andyWater) + " bottles of water today.")
-            sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (" + str(andyWater) + " times today).")
-        andyWater = andyWater + 1
-    elif (swipeCode == adamWaterCode):
-        if (adamWater == 1):
-            speak("Adam, you have had 1 bottle of water today.")
-            sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (1 time today).")
-        else:
-            speak("Adam, you have had " + str(adamWater) + " bottles of water today.")
-            sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (" + str(adamWater) + " times today).")
-        adamWater = adamWater + 1
+    #elif (swipeCode == andyWaterCode):
+    #    if (andyWater == 1):
+    #        speak("Andy, you have had 1 bottle of water today.")
+    #       sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (1 time today).")
+    #    else:
+    #        speak("Andy, you have had " + str(andyWater) + " bottles of water today.")
+    #        sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (" + str(andyWater) + " times today).")
+    #    andyWater = andyWater + 1
+    #elif (swipeCode == adamWaterCode):
+    #    if (adamWater == 1):
+    #        speak("Adam, you have had 1 bottle of water today.")
+    #        sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (1 time today).")
+    #    else:
+    #        speak("Adam, you have had " + str(adamWater) + " bottles of water today.")
+    #        sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (" + str(adamWater) + " times today).")
+    #    adamWater = adamWater + 1
            
 
 def checkoutEveryone():
-    global andyPresent
-    global adamPresent
-    global jasonPresent
-    global johnPresent
-    global victorPresent
-    global juliePresent
-    global poojaPresent
-    global meghanPresent
-    global allisonPresent
-    
-    global andyWater
-    global adamWater
-    
-    andyPresent = False
-    adamPresent = False
-    jasonPresent = False
-    johnPresent = False
-    victorPresent = False
-    juliePresent = False
-    poojaPresent = False
-    meghanPresent = False
-    allisonPresent = False
-    
-    andyWater = 0
-    adamWater = 0
+    for x in lab:
+      x.present = False
 
 def sendIFTTTEmail(subject):
     msg = MIMEText("")
