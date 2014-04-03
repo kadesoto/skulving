@@ -79,7 +79,7 @@ def swipe(swipeCode):
          x.timeOut = datetime.datetime.now()
          x.present = False
          time.sleep(5)
-         sendIFTTTEmail(x.firstName + " " + x.LastName + " #loghours", str(x.timeOut - x.timeIn))
+         sendIFTTTEmail(x.firstName + " " + x.lastName + " #loghours", str(x.timeOut - x.timeIn))
 
 def checkoutEveryone():
     for x in lab:
