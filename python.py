@@ -85,11 +85,10 @@ def checkoutEveryone():
       x.present = False  
 
 def sendIFTTTEmail(subject, body):
-    msg = MIMEText("")
+    msg = MIMEText(body)
     msg["Subject"] = subject
     msg["From"] = USERNAME
     msg["To"] = "trigger@ifttt.com"
-    msg.attach(MIMEText (body, 'plain'))
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.ehlo_or_helo_if_needed()
     server.starttls()
