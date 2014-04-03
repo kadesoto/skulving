@@ -116,7 +116,7 @@ def reportIP():
     server.sendmail(USERNAME, "kadesoto@gmail.com", msg.as_string())
     server.quit()
     print("Email hopefully sent...")
-    speak("Ready for action.")
+    speak("Ready.")
     s.close()
 
 def speak(speechString):
