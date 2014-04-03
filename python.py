@@ -2,21 +2,12 @@ import serial
 import smtplib
 import threading
 import time
+import datetime
 import subprocess
-from datetime import datetime
 from apscheduler.scheduler import Scheduler
 from email.mime.text import MIMEText
 
 class LabMember:
-    #firstName = ""
-    #firstNamePhonetic = ""
-    #lastName = ""
-    #lastNamePhonetic = ""
-    #title = ""
-    #RFIDCode = ""
-    #timeIn = ""
-    #timeOut = ""
-    #twitterHandle = ""
     present = False
     water = 0
     
@@ -38,7 +29,7 @@ andy = LabMember("Andy", "Andy", "DeSoto", "DeSoto", "Mister", "5A", "@kadesoto"
 adam = LabMember("Adam", "Adam", "Putnam", "Putnam", "Mister", "D8", "@adamlputnam")
 jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonrfinley")
 john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
-victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sunkasetty", "Mister", "85", "")
+victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sung Ka Settee", "Mister", "85", "")
 julie = LabMember("Julie", "Julie", "Gray", "Gray", "Miss", "CE", "@joule")
 pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "27" , "@poojaagarwal")
 meghan = LabMember("Meghan", "Megan", "McDoniel", "McDoniel", "Miss", "08", "")
@@ -69,46 +60,36 @@ def swipe(swipeCode):
     
     for x in lab:
       if x.RFIDCode == swipeCode and x.present == False:
-         temporaryTwitterHandle = " (" + x.twitterHandle + ") "
-         sendIFTTTEmail(x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
+         if x.twitterHandle != "":
+            temporaryTwitterHandle = " (" + x.twitterHandle + ") "
+         else:
+            temporaryTwitterHandle = ""
+         sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
          speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
-         x.timeIn = time.strftime("%c")
+         x.timeIn = datetime.datetime.now()
          x.present = True
          
       elif x.RFIDCode == swipeCode and x.present == True:
-         temporaryTwitterHandle = " (" + x.twitterHandle + ") "
-         sendIFTTTEmail(x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
+         if x.twitterHandle != "":
+            temporaryTwitterHandle = " (" + x.twitterHandle + ") "
+         else:
+            temporaryTwitterHandle = ""
+         sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
          speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
-         x.timeOut = time.strftime("%c")
+         x.timeOut = datetime.datetime.now()
          x.present = False
-
-    #elif (swipeCode == andyWaterCode):
-    #    if (andyWater == 1):
-    #        speak("Andy, you have had 1 bottle of water today.")
-    #       sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (1 time today).")
-    #    else:
-    #        speak("Andy, you have had " + str(andyWater) + " bottles of water today.")
-    #        sendIFTTTEmail("Andy (@kadesoto) has filled up his water bottle (" + str(andyWater) + " times today).")
-    #    andyWater = andyWater + 1
-    #elif (swipeCode == adamWaterCode):
-    #    if (adamWater == 1):
-    #        speak("Adam, you have had 1 bottle of water today.")
-    #        sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (1 time today).")
-    #    else:
-    #        speak("Adam, you have had " + str(adamWater) + " bottles of water today.")
-    #        sendIFTTTEmail("Adam (@adamlputnam) has filled up his water bottle (" + str(adamWater) + " times today).")
-    #    adamWater = adamWater + 1
-           
+         sendIFTTTEmail(x.firstName + " " + x.LastName + " #loghours", timeOut - timeIn)
 
 def checkoutEveryone():
     for x in lab:
-      x.present = False
+      x.present = False  
 
-def sendIFTTTEmail(subject):
+def sendIFTTTEmail(subject, body):
     msg = MIMEText("")
     msg["Subject"] = subject
     msg["From"] = USERNAME
     msg["To"] = "trigger@ifttt.com"
+    msg.attach(MIMEText (body, 'plain'))
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.ehlo_or_helo_if_needed()
     server.starttls()
