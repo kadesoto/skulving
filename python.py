@@ -78,7 +78,7 @@ def swipe(swipeCode):
          speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
          x.timeOut = datetime.datetime.now()
          x.present = False
-         sendIFTTTEmail(x.firstName + " " + x.LastName + " #loghours", timeOut - timeIn)
+         sendIFTTTEmail(x.firstName + " " + x.LastName + " #loghours", str(timeOut - timeIn))
 
 def checkoutEveryone():
     for x in lab:
