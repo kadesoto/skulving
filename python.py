@@ -30,20 +30,17 @@ adam = LabMember("Adam", "Adam", "Putnam", "Putnam", "Mister", "D8", "@adamlputn
 jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonrfinley")
 john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
 victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sung Ka Settee", "Mister", "85", "")
-julie = LabMember("Julie", "Julie", "Gray", "Gray", "Miss", "CE", "@joule")
-pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "27" , "@poojaagarwal")
-meghan = LabMember("Meghan", "Megan", "McDoniel", "McDoniel", "Miss", "08", "")
-allison = LabMember("Allison", "Allison", "Obenhaus", "Obenhaus", "Miss", "B8", "@allisonobenhaus")
+lena = LabMember("Lena", "Leena", "Abel", "Awbel", "Doctor", "27" , "")
 roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "XX", "")
 
-lab = [andy, adam, jason, john, victor, julie, pooja, meghan, allison, roddy]
+lab = [andy, adam, jason, john, victor, lena, roddy]
 
 def main():    
     sched = Scheduler()
     sched.start()
     
     sched.add_cron_job(BBCAlert, day_of_week='wed', hour = '15', minute = '55') # BBC Alert should go off at 3:55 PM Wednesdays
-    sched.add_cron_job(labMeetingAlert, day_of_week='mon', hour = '10', minute = '25') # lab meeting alert should go off at 10:25 AM Mondays
+    sched.add_cron_job(labMeetingAlert, day_of_week='wed', hour = '10', minute = '25') # lab meeting alert should go off at 10:25 AM Mondays
     sched.add_cron_job(checkoutEveryone, hour = '23', minute = '55') # reset daily variables at 11:55 PM every day
     
     while 1 :
