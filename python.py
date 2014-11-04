@@ -61,7 +61,7 @@ def swipe(swipeCode):
          if x.twitterHandle != "":
             temporaryTwitterHandle = " (" + x.twitterHandle + ")"
          else:
-            temporaryTwitterHandle = " "
+            temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
          speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
          x.timeIn = datetime.datetime.now()
@@ -71,7 +71,7 @@ def swipe(swipeCode):
          if x.twitterHandle != "":
             temporaryTwitterHandle = " (" + x.twitterHandle + ")"
          else:
-            temporaryTwitterHandle = " "
+            temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
          speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
          x.timeOut = datetime.datetime.now()
