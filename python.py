@@ -99,7 +99,7 @@ def sendIFTTTEmail(subject, body):
     server.starttls()
     server.ehlo_or_helo_if_needed()
     server.login(USERNAME, PASSWORD)
-    server.sendmail(USERNAME, "trigger@ifttt.com", msg.as_string())
+    server.sendmail(USERNAME, "trigger@recipe.ifttt.com", msg.as_string())
     server.quit()
     print("Email hopefully sent...")
 
