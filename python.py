@@ -30,11 +30,17 @@ jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonr
 john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
 victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sung Ka Settee", "Mister", "85", "")
 lena = LabMember("Lena", "Leena", "Abel", "Awbel", "Doctor", "D6" , "")
-roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "XX", "")
+roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "43", "")
+
+julie = LabMember("Julie", "Julie", "Gray", "Gray", "Miss", "CE", "@joule")
+pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "27" , "@poojaagarwal")
+meghan = LabMember("Meghan", "Megan", "McDoniel", "McDoniel", "Miss", "08", "")
+allison = LabMember("Allison", "Allison", "Obenhaus", "Obenhaus", "Miss", "B8", "@allisonobenhaus")
 
 # Pooja's was 27
 
 lab = [andy, adam, jason, john, victor, lena, roddy]
+alllab = [lab, julie, pooja, meghan, allison]
 
 def main():    
     sched = Scheduler()
