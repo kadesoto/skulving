@@ -9,7 +9,6 @@ from email.mime.text import MIMEText
 
 class LabMember:
     present = False
-    water = 0
     
     def __init__(self, firstName, firstNamePhonetic, lastName, lastNamePhonetic, title, RFIDCode, twitterHandle):
         self.firstName = firstName
@@ -30,8 +29,10 @@ adam = LabMember("Adam", "Adam", "Putnam", "Putnam", "Mister", "D8", "@adamlputn
 jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonrfinley")
 john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
 victor = LabMember("Victor", "Victor", "Sungkhasettee", "Sung Ka Settee", "Mister", "85", "")
-lena = LabMember("Lena", "Leena", "Abel", "Awbel", "Doctor", "27" , "")
+lena = LabMember("Lena", "Leena", "Abel", "Awbel", "Doctor", "D6" , "")
 roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "XX", "")
+
+# Pooja's was 27
 
 lab = [andy, adam, jason, john, victor, lena, roddy]
 
