@@ -69,7 +69,12 @@ def swipe(swipeCode):
          else:
             temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
-         speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
+         
+         if x.firstName == Lena:
+            speakGerman("Willkommen im Labor, Frau Doktor Abel")
+         else:
+            speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
+         
          x.timeIn = datetime.datetime.now()
          x.present = True
          
@@ -79,7 +84,12 @@ def swipe(swipeCode):
          else:
             temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
-         speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
+         
+         if x.firstName == Lena:
+            speakGerman("Auf Wiedersehen, Frau Doktor Abel")
+         else   
+            speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
+         
          x.timeOut = datetime.datetime.now()
          x.present = False
          time.sleep(5)
@@ -125,6 +135,9 @@ def reportIP():
 
 def speak(speechString):
     subprocess.call(["./speech.sh", speechString])
+    
+def speakGerman(speechString):
+    subprocess.call(["./speech_de.sh", speechString])
     
 def BBCAlert():
     speak("The BBC colloquium is about to start.")
