@@ -87,7 +87,7 @@ def swipe(swipeCode):
          
          if x.firstName == Lena:
             speakGerman("Auf Wiedersehen, Frau Doktor Abel")
-         else   
+         else:   
             speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
          
          x.timeOut = datetime.datetime.now()
