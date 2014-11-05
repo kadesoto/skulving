@@ -29,5 +29,5 @@ for key in "${!SHORT[@]}"
 do
 #echo "line: $key is: ${SHORT[$key]}"
 echo "Playing line: $(($key+1)) of $(($STRINGNUM+1))"
-mpg123 -q "http://translate.google.co.uk/translate_tts?tl=en&q=${SHORT[$key]}"
+mpg123 -q "http://translate.google.com/translate_tts?tl=de&q=${SHORT[$key]}"
 done
