@@ -70,7 +70,7 @@ def swipe(swipeCode):
             temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked into the Memory Lab.")
          
-         if x.firstName == Lena:
+         if x == lena:
             speakGerman("Willkommen im Labor, Frau Doktor Abel")
          else:
             speak("Welcome to the Memory Lab, " + x.title + " " + x.firstNamePhonetic + " " + x.lastNamePhonetic)
@@ -85,7 +85,7 @@ def swipe(swipeCode):
             temporaryTwitterHandle = ""
          sendIFTTTEmail("Tweet #tweet", x.firstName + temporaryTwitterHandle + " has checked out of the Memory Lab.")
          
-         if x.firstName == Lena:
+         if x == lena:
             speakGerman("Auf Wiedersehen, Frau Doktor Abel")
          else:   
             speak("Farewell, " + x.title + " " + x.lastNamePhonetic)
