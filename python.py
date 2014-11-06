@@ -24,7 +24,7 @@ PASSWORD = "tulvingtulving"
 
 ser = serial.Serial('/dev/ttyACM0', 2400)
 
-andy = LabMember("Andy", "Andy", "DeSoto", "DeSoto", "Mister", "5A", "@kadesoto")
+andy = LabMember("Andy", "Andy", "DeSoto", "DeSoto", "Mister", "27", "@kadesoto")
 adam = LabMember("Adam", "Adam", "Putnam", "Putnam", "Mister", "D8", "@adamlputnam")
 jason = LabMember("Jason", "Jason", "Finley", "Finley", "Doctor", "5C", "@jasonrfinley")
 john = LabMember("John", "John", "Nestojko", "Nestoyko", "Doctor", "E7", "")
@@ -33,11 +33,11 @@ lena = LabMember("Lena", "Leena", "Abel", "Awbel", "Doctor", "D6" , "")
 roddy = LabMember("Roddy", "Roddy", "Roediger", "Roediger", "Doctor", "43", "")
 
 julie = LabMember("Julie", "Julie", "Gray", "Gray", "Miss", "CE", "@joule")
-pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "27" , "@poojaagarwal")
+pooja = LabMember("Pooja", "Pooja", "Agarwal", "Agarwal", "Doctor", "XX" , "@poojaagarwal")
 meghan = LabMember("Meghan", "Megan", "McDoniel", "McDoniel", "Miss", "08", "")
 allison = LabMember("Allison", "Allison", "Obenhaus", "Obenhaus", "Miss", "B8", "@allisonobenhaus")
 
-# Pooja's was 27
+# Andy's was 5A, Pooja's was 27
 
 lab = [andy, adam, jason, john, victor, lena, roddy]
 alllab = [lab, julie, pooja, meghan, allison]
