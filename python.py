@@ -134,10 +134,10 @@ def reportIP():
     s.close()
 
 def speak(speechString):
-    subprocess.call(["./speech.sh", speechString])
+    subprocess.call(["/home/pi/git/skulving/speech.sh", speechString])
     
 def speakGerman(speechString):
-    subprocess.call(["./speech_de.sh", speechString])
+    subprocess.call(["/home/pi/git/skulving/speech_de.sh", speechString])
     
 def BBCAlert():
     speak("The BBC colloquium is about to start.")
